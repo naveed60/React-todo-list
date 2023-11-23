@@ -7,13 +7,10 @@ import { faPen,faCircleCheck,faTrashCan } from '@fortawesome/free-solid-svg-icon
 import './App.css';
 
 function App() {
-  const [toDo, setTodo]= useState([
-    {"id":1, "title": "Task 1", "status":false},
-    {"id":2, "title": "Task 2", "status":false}
-  ]);
+  const [toDo, setTodo]= useState([]);
   const [newTask, setNewTask] = useState('');
-  const [updatData, setUpdateData] = useState('');
-  // add task
+  const [updateData, setUpdateData] = useState('');
+  // add new task
   const addTask = () => {
     if (newTask) {
       let num = toDo.length + 1;
@@ -31,7 +28,10 @@ function App() {
   
   // update task
   const updateTask = (id) => {
-    //
+    let filterRecords = [...toDo].filter( task => task.id !== updateData.id);
+    let updateObject = [...filterRecords, updateData]
+    setTodo(updateObject);
+    setUpdateData('');
   }
 
   // mark task completed
@@ -45,48 +45,70 @@ function App() {
      setTodo(newTask);
   }
 
-  // add task
+  // cancel task
   const cancelUpdate = () => {
-    //
+    setUpdateData('');
+
   }
 
   // change task for update
   const changeTask = (e) => {
-    //
+   let newEntry = {
+    id: updateData.id,
+    title: e.target.value,
+    status: updateData.status ? true : false
+   }
+   setUpdateData(newEntry);
   }
 
   return (
     <div className="container App">
-      <h1>ToDo List</h1>
+      <h1>React JS (TODO List)</h1>
       <br></br>
       {/* {update Task} */}
-      <div className="row">
-        <div className="col">
-          <input
-           className="form-control form-control-lg"
-          />
-        </div>
-        <div className="col-auto">
-          <button className="btn btn-lg btn-success mr-20">Update</button>
-          <button className="btn btn-lg btn-warning">Cancel</button>
-        </div>
-      </div>
-      <br></br>
-      {/* {ADD TASK} */}
-      <div className="row">
-        <div className="col">
-          <input 
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          className="form-control form-control-lg"
-          />
-        </div>
-        <div className="col-auto">
-          <button 
-          onClick={addTask}
-          className="btn btn-lg btn-success">Add</button>
-        </div>
-      </div>
+      {updateData && updateData ? (
+        <>
+          <div className="row">
+            <div className="col">
+              <input 
+              value={ updateData && updateData.title }
+              onChange={ (e) => changeTask(e) }
+              className="form-control form-control-lg"
+              />
+              </div>
+              <div className="col-auto">
+                <button 
+                onClick={updateTask}
+                className="btn btn-lg btn-success ml-5">Update</button>
+                <button 
+                onClick={cancelUpdate}
+                className="btn btn-lg btn-danger ">Cancel</button>
+              </div>
+            </div>
+        
+          <br></br>
+        </>
+      ) : (
+       <>
+          {/* {ADD TASK Form} */}
+          <div className="row mb-4">
+            <div className="col">
+              <input placeholder="Add New task..."
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              className="form-control form-control-lg "
+              />
+            </div>
+            <div className="col-auto">
+              <button 
+              onClick={addTask}
+              className="btn btn-lg btn-success">Add Task</button>
+            </div>
+          </div>
+        </>
+      )}
+      
+     
 
 
       {/* {Display Todos} */}
@@ -108,9 +130,18 @@ function App() {
                 >
                   <FontAwesomeIcon icon={faCircleCheck}/>
                 </span>
-                <span title="Eidt">
-                  <FontAwesomeIcon icon={faPen}/>
-                </span>
+                {task.status ? null : (
+                  <span title="Eidt"
+                   onClick={() => setUpdateData ({
+                    id: task.id, 
+                    title: task.title,
+                    status: task.status ? true : false
+                  })}
+                  >
+                    <FontAwesomeIcon icon={faPen}/>
+                  </span>
+                )}
+                
                   <span 
                   onClick={() => deleteTask(task.id)}
                   title="Delete">
