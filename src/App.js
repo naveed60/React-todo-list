@@ -1,8 +1,9 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen,faCircleCheck,faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import  Button  from '@mui/material/Button';
 
 import './App.css';
 
@@ -10,6 +11,18 @@ function App() {
   const [toDo, setTodo]= useState([]);
   const [newTask, setNewTask] = useState('');
   const [updateData, setUpdateData] = useState('');
+
+  useEffect(() => {
+    const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    console.log('Saved tasks from localStorage:', savedTasks);
+    setTodo(savedTasks);
+  }, []);
+
+  // Save tasks to localStorage whenever 'toDo' changes
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(toDo));
+  }, [toDo]);
+
   // add new task
   const addTask = () => {
     if (newTask) {
@@ -77,12 +90,12 @@ function App() {
               />
               </div>
               <div className="col-auto">
-                <button 
+                <Button  variant="contained" color="success"size="large"
                 onClick={updateTask}
-                className="btn btn-lg btn-success ml-5">Update</button>
-                <button 
+                >Update</Button>
+                <Button  variant="contained" color="error"size="large"
                 onClick={cancelUpdate}
-                className="btn btn-lg btn-danger ">Cancel</button>
+                >Cancel</Button>
               </div>
             </div>
         
@@ -100,9 +113,9 @@ function App() {
               />
             </div>
             <div className="col-auto">
-              <button 
+              <Button  variant="contained" color="info"size="large"
               onClick={addTask}
-              className="btn btn-lg btn-success">Add Task</button>
+              >Add Task</Button>
             </div>
           </div>
         </>
