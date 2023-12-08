@@ -4,6 +4,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen,faCircleCheck,faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import  Button  from '@mui/material/Button';
+import About from './components/About';
+import Home from './components/Home';
+import Navbar  from './components/Navbar';
+import {
+ 
+} from "react-router-dom";
+
+
 
 import './App.css';
 
@@ -75,12 +83,15 @@ function App() {
   }
 
   return (
+    
     <div className="container App">
+      <Navbar></Navbar>
       <h1>React JS (TODO List)</h1>
       <br></br>
       {/* {update Task} */}
       {updateData && updateData ? (
-        <>
+        <> 
+          
           <div className="row">
             <div className="col">
               <input 
@@ -162,13 +173,16 @@ function App() {
                   </span>
               </div>
             </div>
+           
           </React.Fragment>
 
 
         )
        })
       }
+       
     </div>
+    
   );
 }
 
