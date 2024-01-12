@@ -4,8 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen,faCircleCheck,faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import  Button  from '@mui/material/Button';
-import About from './components/About';
-import Home from './components/Home';
 import Navbar  from './components/Navbar';
 import {
  
